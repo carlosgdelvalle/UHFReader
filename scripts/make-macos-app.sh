@@ -15,8 +15,13 @@ echo "Creating .app bundle at: $APP_DIR"
 BIN_NAME="UhfPrime.TestBench"
 mkdir -p "$APP_DIR/Contents/MacOS" "$APP_DIR/Contents/Resources"
 
-# Copy executable
-cp "$PUBLISH_DIR/$BIN_NAME" "$APP_DIR/Contents/MacOS/$APP_NAME"
+# Copy all published files into MacOS so the host can find its native libs
+cp -R "$PUBLISH_DIR/"* "$APP_DIR/Contents/MacOS/"
+
+# Rename the main executable to the bundle name
+if [ -f "$APP_DIR/Contents/MacOS/$BIN_NAME" ]; then
+  mv "$APP_DIR/Contents/MacOS/$BIN_NAME" "$APP_DIR/Contents/MacOS/$APP_NAME"
+fi
 chmod +x "$APP_DIR/Contents/MacOS/$APP_NAME"
 
 # Copy ICNS
@@ -59,4 +64,3 @@ PLIST
 
 echo "macOS .app created: $APP_DIR"
 echo "Optional: codesign --force --deep --sign - \"$APP_DIR\""
-

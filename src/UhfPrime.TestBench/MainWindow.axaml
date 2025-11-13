@@ -91,7 +91,9 @@
                   AutoGenerateColumns="False"
                   CanUserSortColumns="True"
                   Margin="16"
-                  IsReadOnly="True">
+                  IsReadOnly="True"
+                  x:Name="TagsGrid"
+                  DoubleTapped="TagsGrid_DoubleTapped">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="EPC" Binding="{Binding Epc}" Width="2*"/>
                 <DataGridTextColumn Header="UID" Binding="{Binding Uid}" Width="2*"/>

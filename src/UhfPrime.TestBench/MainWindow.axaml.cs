@@ -48,4 +48,27 @@ public partial class MainWindow : Window
             // ignore asset loading failures
         }
     }
+
+    private void TagsGrid_DoubleTapped(object? sender, TappedEventArgs e)
+    {
+        try
+        {
+            // Prefer the DataContext of the clicked element
+            if (e.Source is Control c && c.DataContext is ViewModels.TagViewModel rowVm)
+            {
+                _viewModel.TrackedTag = rowVm.Epc;
+                return;
+            }
+
+            // Fallback: use current selection
+            if (sender is DataGrid grid && grid.SelectedItem is ViewModels.TagViewModel selected)
+            {
+                _viewModel.TrackedTag = selected.Epc;
+            }
+        }
+        catch
+        {
+            // ignore
+        }
+    }
 }

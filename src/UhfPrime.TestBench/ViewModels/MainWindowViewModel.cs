@@ -26,6 +26,8 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
     private string _trackedTag = string.Empty;
     private string _statusMessage = "Desconectado";
     private TagViewModel? _selectedTag;
+    private int _powerDbm = 30;
+    private UhfReaderParameters? _lastParameters;
 
     public MainWindowViewModel()
     {
@@ -36,6 +38,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
         StopInventoryCommand = new AsyncCommand(StopInventoryAsync, () => IsConnected && IsInventoryRunning);
         ClearTagsCommand = new RelayCommand(ClearTags);
         UseSelectedAsTrackedCommand = new RelayCommand(UseSelectedTag, () => SelectedTag is not null);
+        ApplyPowerCommand = new AsyncCommand(ApplyPowerAsync, () => IsConnected);
 
         Tags = new ObservableCollection<TagViewModel>();
         FrameLog = new ObservableCollection<FrameLogEntry>();
@@ -58,6 +61,8 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
     public RelayCommand ClearTagsCommand { get; }
 
     public RelayCommand UseSelectedAsTrackedCommand { get; }
+
+    public AsyncCommand ApplyPowerCommand { get; }
 
     public string Host
     {
@@ -129,6 +134,16 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
         private set => SetProperty(ref _statusMessage, value);
     }
 
+    public int PowerDbm
+    {
+        get => _powerDbm;
+        set
+        {
+            var clamped = Math.Clamp(value, 0, 33);
+            SetProperty(ref _powerDbm, clamped);
+        }
+    }
+
     public TagViewModel? SelectedTag
     {
         get => _selectedTag;
@@ -179,7 +194,9 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
             var parameters = await _client.GetAllParametersAsync(cts.Token);
             await RunOnUiThreadAsync(() =>
             {
-                StatusMessage = $"Conectado · Modo={parameters.WorkMode} · Q={parameters.QValue} · Potencia={parameters.RfidPower} dBm";
+                _lastParameters = parameters;
+                PowerDbm = parameters.RfidPower;
+                StatusMessage = $"Conectado · Modo={parameters.WorkMode} · Q={parameters.QValue} · Potencia={PowerDbm} dBm";
             });
         }
         catch (OperationCanceledException)
@@ -333,6 +350,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
         DisconnectCommand.RaiseCanExecuteChanged();
         StartInventoryCommand.RaiseCanExecuteChanged();
         StopInventoryCommand.RaiseCanExecuteChanged();
+        ApplyPowerCommand.RaiseCanExecuteChanged();
     }
 
     private static Task RunOnUiThreadAsync(Action action)
@@ -344,5 +362,39 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
         }
 
         return Dispatcher.UIThread.InvokeAsync(action).GetTask();
+    }
+
+    private async Task ApplyPowerAsync()
+    {
+        try
+        {
+            var parameters = _lastParameters;
+            if (parameters is null)
+            {
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+                parameters = await _client.GetAllParametersAsync(cts.Token);
+            }
+
+            var payload = (parameters ?? new UhfReaderParameters()).ToPayload();
+            // Byte 15 per manual = RF power dBm
+            payload[15] = (byte)PowerDbm;
+            var updated = UhfReaderParameters.FromPayload(payload);
+
+            using var setCts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+            await _client.SetAllParametersAsync(updated, setCts.Token);
+            _lastParameters = updated;
+
+            await RunOnUiThreadAsync(() =>
+            {
+                StatusMessage = $"Potencia actualizada a {PowerDbm} dBm";
+            });
+        }
+        catch (Exception ex)
+        {
+            await RunOnUiThreadAsync(() =>
+            {
+                StatusMessage = $"Error al aplicar potencia: {ex.Message}";
+            });
+        }
     }
 }

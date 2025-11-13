@@ -63,4 +63,14 @@ cat > "$APP_DIR/Contents/Info.plist" <<'PLIST'
 PLIST
 
 echo "macOS .app created: $APP_DIR"
-echo "Optional: codesign --force --deep --sign - \"$APP_DIR\""
+
+# Ad-hoc codesign (can be disabled by setting SKIP_CODESIGN=1)
+if [ "${SKIP_CODESIGN:-0}" != "1" ]; then
+  echo "Ad-hoc signing bundle..."
+  codesign --force --deep --sign - "$APP_DIR" || {
+    echo "Warning: codesign failed. You can retry manually:"
+    echo "  codesign --force --deep --sign - \"$APP_DIR\""
+  }
+fi
+
+echo "Bundle ready at: $APP_DIR"

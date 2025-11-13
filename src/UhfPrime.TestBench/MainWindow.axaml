@@ -17,7 +17,7 @@
                            DoubleTapped="LogoImage_DoubleTapped"/>
                 </Border>
                 <StackPanel Grid.Column="2" Spacing="16">
-                <Grid ColumnDefinitions="Auto,200,24,Auto,120,24,Auto,120,*" RowDefinitions="Auto,Auto">
+                <Grid ColumnDefinitions="Auto,300,24,Auto,120,24,Auto,120,*" RowDefinitions="Auto,Auto">
                     <TextBlock Text="Host del lector" VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <TextBox Grid.Column="1" Text="{Binding Host, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -47,7 +47,7 @@
                 </Grid>
 
                 <Grid ColumnDefinitions="Auto,Auto,*" Margin="0,8,0,0">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
+                    <StackPanel Orientation="Horizontal" Spacing="8" MinWidth="300">
                         <Button Content="Iniciar inventario" Command="{Binding StartInventoryCommand}" MinWidth="120"/>
                         <Button Content="Detener inventario" Command="{Binding StopInventoryCommand}" MinWidth="120"/>
                     </StackPanel>

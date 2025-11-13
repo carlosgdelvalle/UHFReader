@@ -4,43 +4,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="700"
         x:Class="UhfPrime.TestBench.MainWindow"
-        Title="UHF Prime Test Bench">
+        Title="Pruebas RFID Prime">
     <Grid RowDefinitions="Auto,*" ColumnDefinitions="*">
         <Border Grid.Row="0" Background="#F4F6FB" Padding="16">
             <StackPanel Spacing="16">
                 <Grid ColumnDefinitions="Auto,200,24,Auto,120,24,Auto,120,*" RowDefinitions="Auto,Auto">
-                    <TextBlock Text="Reader host" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBlock Text="Host del lector" VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <TextBox Grid.Column="1" Text="{Binding Host, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <TextBlock Grid.Column="3" Text="Port" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBlock Grid.Column="3" Text="Puerto" VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <NumericUpDown Grid.Column="4" Minimum="1" Maximum="65535" Value="{Binding Port}" Width="120"/>
 
-                    <TextBlock Grid.Column="6" Text="Address" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBlock Grid.Column="6" Text="Dirección" VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <NumericUpDown Grid.Column="7" Minimum="0" Maximum="255" Value="{Binding Address}" Width="120"/>
 
                     <StackPanel Grid.Column="8" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-                        <Button Content="Connect" Command="{Binding ConnectCommand}" MinWidth="90"/>
-                        <Button Content="Disconnect" Command="{Binding DisconnectCommand}" MinWidth="90"/>
+                        <Button Content="Conectar" Command="{Binding ConnectCommand}" MinWidth="90"/>
+                        <Button Content="Desconectar" Command="{Binding DisconnectCommand}" MinWidth="90"/>
                     </StackPanel>
 
-                    <TextBlock Grid.Row="1" Text="Tracked EPC" VerticalAlignment="Center" Margin="0,8,8,0"/>
+                    <TextBlock Grid.Row="1" Text="EPC rastreado" VerticalAlignment="Center" Margin="0,8,8,0"/>
                     <TextBox Grid.Row="1" Grid.Column="1" Margin="0,8,0,0" Text="{Binding TrackedTag, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <TextBlock Grid.Row="1" Grid.Column="3" Text="Min RSSI" VerticalAlignment="Center" Margin="0,8,8,0"/>
+                    <TextBlock Grid.Row="1" Grid.Column="3" Text="RSSI mínimo" VerticalAlignment="Center" Margin="0,8,8,0"/>
                     <Slider Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Minimum="-90" Maximum="0" Value="{Binding MinimumRssi}" Margin="0,8,0,0"/>
                     <TextBlock Grid.Row="1" Grid.Column="6" Text="{Binding MinimumRssi, StringFormat='{}{0:F1} dBm'}" VerticalAlignment="Center" Margin="0,8,0,0"/>
 
-                    <CheckBox Grid.Row="1" Grid.Column="7" Margin="0,8,0,0" IsChecked="{Binding IsBeepEnabled}" Content="Beep on tracked EPC"/>
+                    <CheckBox Grid.Row="1" Grid.Column="7" Margin="0,8,0,0" IsChecked="{Binding IsBeepEnabled}" Content="Sonar con EPC rastreado"/>
                     <StackPanel Grid.Row="1" Grid.Column="8" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0" Spacing="8">
-                        <Button Content="Use selection" Command="{Binding UseSelectedAsTrackedCommand}" MinWidth="110"/>
-                        <Button Content="Clear list" Command="{Binding ClearTagsCommand}" MinWidth="90"/>
+                        <Button Content="Usar selección" Command="{Binding UseSelectedAsTrackedCommand}" MinWidth="110"/>
+                        <Button Content="Limpiar lista" Command="{Binding ClearTagsCommand}" MinWidth="90"/>
                     </StackPanel>
                 </Grid>
 
                 <Grid ColumnDefinitions="Auto,Auto,*" Margin="0,8,0,0">
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Button Content="Start inventory" Command="{Binding StartInventoryCommand}" MinWidth="120"/>
-                        <Button Content="Stop inventory" Command="{Binding StopInventoryCommand}" MinWidth="120"/>
+                        <Button Content="Iniciar inventario" Command="{Binding StartInventoryCommand}" MinWidth="120"/>
+                        <Button Content="Detener inventario" Command="{Binding StopInventoryCommand}" MinWidth="120"/>
                     </StackPanel>
                     <TextBlock Grid.Column="1"
                                Grid.ColumnSpan="2"
@@ -52,7 +52,7 @@
                 <Expander>
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock Text="Diagnostics"/>
+                            <TextBlock Text="Diagnóstico"/>
                             <TextBlock Text="("/>
                             <TextBlock Text="{Binding FrameLog.Count}"/>
                             <TextBlock Text=")"/>
@@ -65,10 +65,10 @@
                               Height="160"
                               CanUserSortColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp}" Width="1*"/>
+                            <DataGridTextColumn Header="Hora" Binding="{Binding Timestamp}" Width="1*"/>
                             <DataGridTextColumn Header="Dir" Binding="{Binding Direction}" Width="0.5*"/>
-                            <DataGridTextColumn Header="Summary" Binding="{Binding CommandSummary}" Width="1.5*"/>
-                            <DataGridTextColumn Header="Raw" Binding="{Binding HexPayload}" Width="2*"/>
+                            <DataGridTextColumn Header="Resumen" Binding="{Binding CommandSummary}" Width="1.5*"/>
+                            <DataGridTextColumn Header="Hex" Binding="{Binding HexPayload}" Width="2*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Expander>
@@ -86,10 +86,10 @@
                 <DataGridTextColumn Header="EPC" Binding="{Binding Epc}" Width="2*"/>
                 <DataGridTextColumn Header="UID" Binding="{Binding Uid}" Width="2*"/>
                 <DataGridTextColumn Header="RSSI" Binding="{Binding RssiDisplay}" Width="1*" />
-                <DataGridTextColumn Header="Last Seen" Binding="{Binding LastSeen}" Width="1.5*"/>
-                <DataGridTextColumn Header="Count" Binding="{Binding ReadCount}" Width="0.6*"/>
-                <DataGridTextColumn Header="Antenna" Binding="{Binding Antenna}" Width="0.6*"/>
-                <DataGridTextColumn Header="Channel" Binding="{Binding Channel}" Width="0.6*"/>
+                <DataGridTextColumn Header="Última lectura" Binding="{Binding LastSeen}" Width="1.5*"/>
+                <DataGridTextColumn Header="Conteo" Binding="{Binding ReadCount}" Width="0.6*"/>
+                <DataGridTextColumn Header="Antena" Binding="{Binding Antenna}" Width="0.6*"/>
+                <DataGridTextColumn Header="Canal" Binding="{Binding Channel}" Width="0.6*"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

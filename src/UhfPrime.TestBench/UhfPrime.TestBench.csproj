@@ -6,6 +6,8 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>false</AvaloniaUseCompiledBindingsByDefault>
+    <AssemblyTitle>Pruebas RFID Prime</AssemblyTitle>
+    <Product>Pruebas RFID Prime</Product>
   </PropertyGroup>
 
   <ItemGroup>

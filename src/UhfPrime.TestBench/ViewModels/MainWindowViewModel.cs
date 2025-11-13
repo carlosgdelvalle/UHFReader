@@ -24,7 +24,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
     private bool _isInventoryRunning;
     private bool _isBeepEnabled = true;
     private string _trackedTag = string.Empty;
-    private string _statusMessage = "Disconnected";
+    private string _statusMessage = "Desconectado";
     private TagViewModel? _selectedTag;
 
     public MainWindowViewModel()
@@ -157,7 +157,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
             await RunOnUiThreadAsync(() =>
             {
                 IsConnected = true;
-                StatusMessage = $"Connected to {Host}:{Port}. Requesting reader parameters...";
+                StatusMessage = $"Conectado a {Host}:{Port}. Solicitando parámetros...";
             });
 
             await FetchParametersAsync();
@@ -179,21 +179,21 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
             var parameters = await _client.GetAllParametersAsync(cts.Token);
             await RunOnUiThreadAsync(() =>
             {
-                StatusMessage = $"Connected · WorkMode={parameters.WorkMode} · Q={parameters.QValue} · Power={parameters.RfidPower}dBm";
+                StatusMessage = $"Conectado · Modo={parameters.WorkMode} · Q={parameters.QValue} · Potencia={parameters.RfidPower} dBm";
             });
         }
         catch (OperationCanceledException)
         {
             await RunOnUiThreadAsync(() =>
             {
-                StatusMessage = "Connected, but GET_ALL_PARAM timed out.";
+                StatusMessage = "Conectado, pero GET_ALL_PARAM agotó el tiempo.";
             });
         }
         catch (Exception ex)
         {
             await RunOnUiThreadAsync(() =>
             {
-                StatusMessage = $"Connected, but failed to read parameters: {ex.Message}";
+                StatusMessage = $"Conectado, pero error al leer parámetros: {ex.Message}";
             });
         }
     }
@@ -205,7 +205,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
         await RunOnUiThreadAsync(() =>
         {
             IsConnected = false;
-            StatusMessage = "Disconnected";
+            StatusMessage = "Desconectado";
         });
     }
 
@@ -215,7 +215,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
         await RunOnUiThreadAsync(() =>
         {
             IsInventoryRunning = true;
-            StatusMessage = "Inventory running";
+            StatusMessage = "Inventario en curso";
         });
     }
 
@@ -243,7 +243,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
         await RunOnUiThreadAsync(() =>
         {
             IsInventoryRunning = false;
-            StatusMessage = "Inventory stopped";
+            StatusMessage = "Inventario detenido";
         });
     }
 

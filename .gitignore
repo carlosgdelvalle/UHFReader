@@ -1,0 +1,41 @@
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# IDEs / Editors
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.iml
+
+# Build output
+**/bin/
+**/obj/
+**/out/
+**/publish/
+
+# Logs / cache
+*.log
+**/TestResults/
+TestResult*/
+*.trx
+*.coverage*
+coverage*/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Other
+*.swp
+*.lock.json
+*.tmp

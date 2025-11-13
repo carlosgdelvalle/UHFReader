@@ -21,6 +21,7 @@
 **/obj/
 **/out/
 **/publish/
+dist/
 
 # Logs / cache
 *.log

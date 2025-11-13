@@ -7,7 +7,16 @@
         Title="Pruebas RFID Prime">
     <Grid RowDefinitions="Auto,*" ColumnDefinitions="*">
         <Border Grid.Row="0" Background="#F4F6FB" Padding="16">
-            <StackPanel Spacing="16">
+            <Grid ColumnDefinitions="Auto,12,*">
+                <Border Grid.Column="0" VerticalAlignment="Top" Margin="0,0,12,0">
+                    <Image x:Name="LogoImage"
+                           Width="140"
+                           Height="72"
+                           Stretch="Uniform"
+                           Source="avares://UhfPrime.TestBench/Assets/logoldm.jpeg"
+                           DoubleTapped="LogoImage_DoubleTapped"/>
+                </Border>
+                <StackPanel Grid.Column="2" Spacing="16">
                 <Grid ColumnDefinitions="Auto,200,24,Auto,120,24,Auto,120,*" RowDefinitions="Auto,Auto">
                     <TextBlock Text="Host del lector" VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <TextBox Grid.Column="1" Text="{Binding Host, UpdateSourceTrigger=PropertyChanged}" />
@@ -72,7 +81,8 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </Expander>
-            </StackPanel>
+                </StackPanel>
+            </Grid>
         </Border>
 
         <DataGrid Grid.Row="1"

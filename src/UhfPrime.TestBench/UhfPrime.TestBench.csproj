@@ -26,4 +26,14 @@
   <ItemGroup>
     <ProjectReference Include="..\UhfPrime.Client\UhfPrime.Client.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- Embed logos as Avalonia resources under logical Assets/ -->
+    <AvaloniaResource Include="..\..\logoldm.jpeg">
+      <Link>Assets/logoldm.jpeg</Link>
+    </AvaloniaResource>
+    <AvaloniaResource Include="..\..\logoCubo.png">
+      <Link>Assets/logoCubo.png</Link>
+    </AvaloniaResource>
+  </ItemGroup>
 </Project>

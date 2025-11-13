@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "jdVkACUnwag=",
+  "success": true,
+  "projectFilePath": "/Users/carlos/repos/UHFReader/src/UhfPrime.Client/UhfPrime.Client.csproj",
+  "expectedPackageFiles": [
+    "/Users/carlos/.nuget/packages/microsoft.netcore.app.ref/9.0.10/microsoft.netcore.app.ref.9.0.10.nupkg.sha512",
+    "/Users/carlos/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.10/microsoft.aspnetcore.app.ref.9.0.10.nupkg.sha512"
+  ],
+  "logs": []
+}

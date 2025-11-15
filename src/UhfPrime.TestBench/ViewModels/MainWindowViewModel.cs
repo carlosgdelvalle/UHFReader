@@ -27,6 +27,7 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
     private string _statusMessage = "Desconectado";
     private TagViewModel? _selectedTag;
     private int _powerDbm = 30;
+    private int _qValue = 4;
     private UhfReaderParameters? _lastParameters;
 
     public MainWindowViewModel()
@@ -144,6 +145,16 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
         }
     }
 
+    public int QValue
+    {
+        get => _qValue;
+        set
+        {
+            var clamped = Math.Clamp(value, 0, 15);
+            SetProperty(ref _qValue, clamped);
+        }
+    }
+
     public TagViewModel? SelectedTag
     {
         get => _selectedTag;
@@ -196,7 +207,8 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
             {
                 _lastParameters = parameters;
                 PowerDbm = parameters.RfidPower;
-                StatusMessage = $"Conectado · Modo={parameters.WorkMode} · Q={parameters.QValue} · Potencia={PowerDbm} dBm";
+                QValue = parameters.QValue;
+                StatusMessage = $"Conectado · Modo={parameters.WorkMode} · Q={QValue} · Potencia={PowerDbm} dBm";
             });
         }
         catch (OperationCanceledException)
@@ -378,6 +390,8 @@ internal sealed class MainWindowViewModel : ObservableObject, IAsyncDisposable
             var payload = (parameters ?? new UhfReaderParameters()).ToPayload();
             // Byte 15 per manual = RF power dBm
             payload[15] = (byte)PowerDbm;
+            // Byte 17 per manual = Q value
+            payload[17] = (byte)QValue;
             var updated = UhfReaderParameters.FromPayload(payload);
 
             using var setCts = new CancellationTokenSource(TimeSpan.FromSeconds(3));

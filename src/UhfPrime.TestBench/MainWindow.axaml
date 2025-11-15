@@ -17,7 +17,7 @@
                            DoubleTapped="LogoImage_DoubleTapped"/>
                 </Border>
                 <StackPanel Grid.Column="2" Spacing="16">
-                <Grid ColumnDefinitions="Auto,300,24,Auto,120,24,Auto,120,24,Auto,140,Auto,*" RowDefinitions="Auto,Auto">
+                <Grid ColumnDefinitions="Auto,300,24,Auto,120,24,Auto,120,24,Auto,100,24,Auto,140,Auto,*" RowDefinitions="Auto,Auto">
                     <TextBlock Text="Host del lector" VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <TextBox Grid.Column="1" Text="{Binding Host, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -27,11 +27,14 @@
                     <TextBlock Grid.Column="6" Text="Dirección" VerticalAlignment="Center" Margin="0,0,8,0"/>
                     <NumericUpDown Grid.Column="7" Minimum="0" Maximum="255" Value="{Binding Address}" Width="120"/>
 
-                    <TextBlock Grid.Column="9" Text="Potencia (dBm)" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <NumericUpDown Grid.Column="10" Minimum="0" Maximum="33" Value="{Binding PowerDbm}" Width="140"/>
-                    <Button Grid.Column="11" Content="Aplicar" Command="{Binding ApplyPowerCommand}" MinWidth="90"/>
+                    <TextBlock Grid.Column="9" Text="Q" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <NumericUpDown Grid.Column="10" Minimum="0" Maximum="15" Value="{Binding QValue}" Width="100"/>
 
-                    <StackPanel Grid.Column="13" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                    <TextBlock Grid.Column="12" Text="Potencia (dBm)" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <NumericUpDown Grid.Column="13" Minimum="0" Maximum="33" Value="{Binding PowerDbm}" Width="140"/>
+                    <Button Grid.Column="14" Content="Aplicar params" Command="{Binding ApplyPowerCommand}" MinWidth="110"/>
+
+                    <StackPanel Grid.Column="15" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
                         <Button Content="Conectar" Command="{Binding ConnectCommand}" MinWidth="90"/>
                         <Button Content="Desconectar" Command="{Binding DisconnectCommand}" MinWidth="90"/>
                     </StackPanel>
